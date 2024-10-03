@@ -1,4 +1,4 @@
-# ASCOM-Compatible Telescope Cover
+# ASCOM-Compatible Telescope Cover For ESP32
 
 ## Forked from https://github.com/jlecomte/ascom-telescope-cover
 **This version has been modified to support ESP32 devices. You will need to use this version's Arduino firmware and Ascom drivers in order for it to work properly.**
