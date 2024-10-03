@@ -1,5 +1,12 @@
 # ASCOM-Compatible Telescope Cover
 
+## Forked from https://github.com/jlecomte/ascom-telescope-cover
+**This version has been modified to support ESP32 devices. You will need to use this version's Arduino firmware and Ascom drivers in order for it to work properly.**
+
+The wiring remains the same besides replacing it with your desired ESP32 device (I went with the ESP32c3 Super Mini) and wiring to whichever servo control pin you choose. Also I used a 20kg servo instead of 35kg as I'm using it on a much smaller scope and still, 20kg is probably overkill.
+
+I updated the Arduino firmware for my specifications so you may need to update it depending on which hardware you choose.
+##
 I do not charge anything to create and maintain these open-source projects. But if you would like to say "thanks" for this project, feel free to send any amount through Paypal using the button below. I appreciate your support!
 
 [![](images/donate.png)](https://www.paypal.com/donate/?hosted_button_id=49UXY8F6VVYFA)
