@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See the accompanying LICENSE file for terms.
  */
 
-#include <Servo.h>
+#include <ESP32Servo.h>
 
 constexpr auto DEVICE_GUID = "b45ba2c9-f554-4b4e-a43c-10605ca3b84d";
 
@@ -25,41 +25,34 @@ constexpr auto COMMAND_CLOSE = "COMMAND:CLOSE";
 constexpr auto ERROR_INVALID_COMMAND = "ERROR:INVALID_COMMAND";
 
 enum CoverState {
-    open,
-    closed
+    openState,
+    closedState
 } state;
+
+const int SERVO_PIN = 4; //Pin used for servo control, update this to whichever pin you use
+const int LED_BUILTIN = 8;
+
+int pos = 0;
 
 Servo servo;
 
-// The `setup` function runs once when you press reset or power the board.
 void setup() {
-    state = closed;
+    state = closedState;
 
-    // Initialize serial port I/O.
-    Serial.begin(57600);
+    Serial.begin(115200);
     while (!Serial) {
-        ; // Wait for serial port to connect. Required for native USB!
+        ;
     }
     Serial.flush();
 
-    // Initialize servo.
-    // Important: We assume that the cover is in the closed position!
-    // If it's not, then the servo will brutally close it when the system is powered up!
-    // That may damage the mechanical parts, so be careful...
-    servo.write(0);
-    servo.attach(9);
+    // Initialize servo - Update these to match your servo model
+    servo.setPeriodHertz(333);
+    servo.attach(SERVO_PIN, 700, 2400);
 
-    // Make sure the RX, TX, and built-in LEDs don't turn on, they are very bright!
-    // Even though the board is inside an enclosure, the light can be seen shining
-    // through the small opening for the USB connector! Unfortunately, it is not
-    // possible to turn off the power LED (green) in code...
-    pinMode(PIN_LED_TXL, INPUT);
-    pinMode(PIN_LED_RXL, INPUT);
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, HIGH);
 }
 
-// The `loop` function runs over and over again until power down or reset.
 void loop() {
     if (Serial.available() > 0) {
         String command = Serial.readStringUntil('\n');
@@ -95,10 +88,10 @@ void sendFirmwareInfo() {
 
 void sendCurrentState() {
     switch (state) {
-    case open:
+    case openState:
         Serial.println(RESULT_STATE_OPEN);
         break;
-    case closed:
+    case closedState:
         Serial.println(RESULT_STATE_CLOSED);
         break;
     default:
@@ -108,31 +101,22 @@ void sendCurrentState() {
 }
 
 void openCover() {
-    int pos = servo.read();
-    // Serial.print("Current position of servo is ");
-    // Serial.println(pos);
     if (pos < 180) {
         for (; pos <= 180; pos++) {
             servo.write(pos);
-            delay(30);
+            //delay(30); Add delay if you want to slow down the servo movement (Delay time in ms)
         }
     }
-
-    state = open;
+    state = openState;
 }
 
 void closeCover() {
-    int pos = servo.read();
-    // Serial.print("Current position of servo is ");
-    // Serial.println(pos);
     if (pos > 0) {
         for (; pos >= 0; pos--) {
             servo.write(pos);
-            delay(30);
         }
     }
-
-    state = closed;
+    state = closedState;
 }
 
 void handleInvalidCommand() {

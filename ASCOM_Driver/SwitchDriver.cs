@@ -222,7 +222,7 @@ namespace ASCOM.DarkSkyGeek
 
                     objSerial = new Serial
                     {
-                        Speed = SerialSpeed.ps57600,
+                        Speed = SerialSpeed.ps115200,
                         PortName = comPort,
                         Connected = true
                     };
@@ -709,7 +709,7 @@ namespace ASCOM.DarkSkyGeek
                 {
                     serial = new Serial
                     {
-                        Speed = SerialSpeed.ps57600,
+                        Speed = SerialSpeed.ps115200,
                         PortName = portName,
                         Connected = true,
                         ReceiveTimeout = 1

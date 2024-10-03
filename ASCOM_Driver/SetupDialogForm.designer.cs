@@ -142,7 +142,7 @@ namespace ASCOM.DarkSkyGeek
             this.Name = "SetupDialogForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DarkSkyGeek’s Telescope Cover";
+            this.Text = "DarkSkyGeek’s Telescope Cover (ESP32)";
             ((System.ComponentModel.ISupportInitialize)(this.picASCOM)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
